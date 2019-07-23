@@ -1,6 +1,12 @@
+const Game = require('../models/Games')
 const games = {}
 
-games.getGames = (req, res) => res.json({message:"get Juegos"})
+games.getGames = async (req, res) => {
+    console.log(`[gamesController] getGames pidiendo...`)
+    var games = await Game.find();
+    console.log(`[gamesController] getGames enviando...`)
+    res.json(games)
+}
 
 games.saveGame = (req, res) => res.json({message:"save game"})
 

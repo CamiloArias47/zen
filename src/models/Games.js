@@ -1,10 +1,9 @@
 const {Schema, model} = require('mongoose');
+var Question = require('./Questions')
 
 const gameSchema = new Schema({
-    question: {
-        type: String,
-        required: true
-    }
+    questions: [{type: Schema.ObjectId, ref: Question}],
+    //user : String
 },{
     timestamps:true
 })

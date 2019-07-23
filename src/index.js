@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 //database
-//require('./database');
+require('./database');
 
 //setings
 app.set('port', process.env.PORT || 3000);

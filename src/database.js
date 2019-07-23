@@ -7,6 +7,8 @@ mongoose.connect(URI, {
     useCreateIndex: true
 })
 
-mongoose.once('open', ()=>{
+const connection = mongoose.connection;
+
+connection.once('open', ()=>{
     console.log(`[database] database is conected...`)
 })
