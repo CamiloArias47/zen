@@ -1,6 +1,6 @@
 const { Schema, model} = require('mongoose')
 
-const questionModel = new Schema({
+const questionSchema = new Schema({
     position:Number,
     question: {
         type: String,
@@ -25,4 +25,9 @@ const questionModel = new Schema({
     timestamps:true
 })
 
-module.exports = model('Question',questionModel);
+const quest = {
+    schema : questionSchema, 
+    modelQuestion : model('Question',questionSchema)
+}
+
+module.exports = quest

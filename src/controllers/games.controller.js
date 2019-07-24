@@ -1,5 +1,5 @@
 const Game = require('../models/Games')
-const Question = require('../models/Questions')
+const {modelQuestion} = require('../models/Questions')
 const mongoose = require('mongoose')
 const games = {}
 
@@ -9,17 +9,32 @@ games.getGames = async (req, res) => {
 }
 
 games.saveGame = async (req, res) => {
-    var {questions} = req.body;
-    let game = new Game()
 
-    questions.map( question => {
-        let newQuestion = new Question(question)
-        game.questions.push( newQuestion ); 
+    var {questions,creator} = req.body;
+
+    let save = new Promise( (resolve, reject) =>{
+        let quests = []
+        questions.map( question => {
+            let newQuestion = new modelQuestion(question)
+            let questionsaved = newQuestion.save()
+            console.log(`[save question] questionsaved:`, newQuestion._id)
+            quests.push( newQuestion._id);
+        }) 
+        if(questions.length <= 0){
+            reject("no se guardo nada")
+        }
+        else{
+            resolve(quests)
+        }
     })
 
-    
-    var saved = await game.save();
-    res.json({message:saved})
+    save.then( asks => {
+            let game = new Game({creator})
+            game.questions = asks
+            return game.save();
+        })
+        .then(saved => { res.json({message:saved}) })
+        .catch( err => { res.json({err})} )
 }
 
 games.getGame =  (req, res) => {
@@ -30,7 +45,17 @@ games.getGame =  (req, res) => {
     //res.json(game)
 }
 
-games.editGame = (req, res) => res.json({message:"editar un juego"})
+games.editGame = (req, res) => {
+    let {creator} = req.body
+    Game.findByIdAndUpdate(req.params.id, {creator}, (err,result)=>{
+        if(err){
+            res.json({updated:false, message: err.message})
+        }
+        else{
+            res.json({updated:true, gameUpdated: result})
+        }
+    })
+}
 
 games.deleteGame =  (req, res) => {
     Game.findByIdAndDelete(req.params.id, (err, deleted) => {
