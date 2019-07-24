@@ -4,9 +4,12 @@ const URI = 'mongodb://localhost/zen'
 
 mongoose.connect(URI, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 })
 
-mongoose.once('open', ()=>{
+const connection = mongoose.connection;
+
+connection.once('open', ()=>{
     console.log(`[database] database is conected...`)
 })
