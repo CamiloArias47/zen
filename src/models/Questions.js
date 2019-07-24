@@ -19,7 +19,8 @@ const questionModel = new Schema({
         require:true
     },
     answers3:String,
-    answers4:String
+    answers4:String,
+    rightAnswer:Number
 },{
     timestamps:true
 })
