@@ -22,9 +22,11 @@
   "homepage": "https://github.com/CamiloArias47/zen#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "materialize-css": "^1.0.0-rc.2",
     "mongoose": "^5.6.6",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path')
 
 const app = express();
 
@@ -10,6 +11,9 @@ app.set('port', process.env.PORT || 3000);
 
 //middlewares
 app.use(express.json())
+
+//static files, muestra el index.html
+app.use(express.static(path.join(__dirname,'public')));
 
 //routes
 app.use('/api/games', require('./routes/games'))
