@@ -18,6 +18,9 @@ app.use(express.static(path.join(__dirname,'public')));
 //routes
 app.use('/api/games', require('./routes/games'))
 app.use('/api/question', require('./routes/questions'))
+app.use('*',  (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+   });
 
 //start server
 app.listen(app.get('port'), ()=>{

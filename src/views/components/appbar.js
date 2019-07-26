@@ -6,11 +6,10 @@ class BarTop extends React.Component {
         let { classes } = this.props;
 
         return (
-            <nav className="amber darken-3">
+            <nav className="amber darken-1">
                 <div className="nav-wrapper">
-                    <a href="#" className="brand-logo center">Zen</a>
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
-                        <li><a href="#">Login</a></li>
+                        <li><a href="#">Crear Juego</a></li>
                     </ul>
                 </div>
             </nav>
