@@ -9,7 +9,7 @@ class Game extends React.Component{
                             key={i} 
                             sizeCard="s12 m3 l4"
                             match={this.props.match}
-                            game={{_id:23342342}}/>)
+                            game={{_id:"5d389f800c44b81f4c1218d0"}}/>)
         }
 
         return(

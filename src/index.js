@@ -1,7 +1,11 @@
 const express = require('express');
-const path = require('path')
+const path = require('path');
+const http = require('http');
+const socketio = require('socket.io')
 
 const app = express();
+const server = http.createServer(app)
+const io = socketio.listen(server)
 
 //database
 require('./database');
@@ -22,7 +26,11 @@ app.use('*',  (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
    });
 
+
+//start socket
+require('./socket')(io);
+
 //start server
-app.listen(app.get('port'), ()=>{
+server.listen(app.get('port'), ()=>{
     console.log(`[server] running on port ${app.get('port')}`)
 })

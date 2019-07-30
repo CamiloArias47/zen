@@ -18,12 +18,11 @@ class CardGame extends React.Component {
                     <div className={"col " + sizeCard}>
                         <div className="card">
                             <div className="card-image">
-                                <img src={imgBg}/>
-                                <span className="card-title" style={style.cardTitle}>Game Title</span>
+                                <img src={imgBg} alt="imagen"/>
+                                <span className="card-title" style={style.cardTitle}>Titulo del juego</span>
                             </div>
                             <div className="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
+                                <p>Descripción muy corta del juego</p>
                             </div>
                         </div>
                     </div>
