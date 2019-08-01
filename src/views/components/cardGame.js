@@ -15,24 +15,21 @@ class CardGame extends React.Component {
         var {sizeCard, match, game} = this.props;
         return (
                 <Link to={`/game/${game._id}`}>
-                    <div className={"col " + sizeCard}>
                         <div className="card">
                             <div className="card-image">
-                                <img src={imgBg} alt="imagen"/>
-                                <span className="card-title" style={style.cardTitle}>Titulo del juego</span>
+                                <img src={imgBg} alt="juego"/>
+                                <span className="card-title" style={style.cardTitle}>{game.title}</span>
                             </div>
                             <div className="card-content">
-                                <p>Descripción muy corta del juego</p>
+                                <p>{(game.description != undefined) ? game.description : ""}</p>
                             </div>
                         </div>
-                    </div>
                 </Link>
                 )
             }
 }
 
 CardGame.propTypes = {
-    sizeCard : PropTypes.string.isRequired,
     game : PropTypes.object.isRequired
 }
 

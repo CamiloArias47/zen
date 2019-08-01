@@ -54,10 +54,23 @@ class PlayGame extends React.Component{
                 })
             }
             else{
+                let preguntas = []
+                if(question.answers1 != null){
+                    preguntas.push(question.answers1)
+                }
+                if(question.answers2 != null){
+                    preguntas.push(question.answers2)
+                }
+                if(question.answers3 != null){
+                    preguntas.push(question.answers3)
+                }
+                if(question.answers4 != null){
+                    preguntas.push(question.answers4)
+                }
                 
                 this.setState({
                     question:{
-                        options:[question.answers1,question.answers2,question.answers3,question.answers4],
+                        options:preguntas,
                         createdAt: question.createdAt,
                         position: question.position,
                         question: question.question,

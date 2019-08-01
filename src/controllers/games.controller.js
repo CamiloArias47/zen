@@ -10,7 +10,7 @@ games.getGames = async (req, res) => {
 
 games.saveGame = async (req, res) => {
 
-    var {questions,creator} = req.body;
+    var {questions,creator, title, description} = req.body;
 
     let save = new Promise( (resolve, reject) =>{
         let quests = []
@@ -29,7 +29,7 @@ games.saveGame = async (req, res) => {
     })
 
     save.then( asks => {
-            let game = new Game({creator})
+            let game = new Game({creator,title,description})
             game.questions = asks
             return game.save();
         })
@@ -46,8 +46,20 @@ games.getGame =  (req, res) => {
 }
 
 games.editGame = (req, res) => {
-    let {creator} = req.body
-    Game.findByIdAndUpdate(req.params.id, {creator}, (err,result)=>{
+    let {creator, title, description} = req.body
+    let newData = {}
+
+    if(creator != null){
+        newData["creator"] = creator
+    }
+    if(title != null){
+        newData["title"] = title
+    }
+    if(description != null){
+        newData["description"] = description
+    }
+
+    Game.findByIdAndUpdate(req.params.id, newData, (err,result)=>{
         if(err){
             res.json({updated:false, message: err.message})
         }
