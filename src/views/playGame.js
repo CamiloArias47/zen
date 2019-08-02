@@ -16,6 +16,7 @@ class PlayGame extends React.Component{
         userId:"",
         soloAnswers:[],
         indexQuestion: 0,
+        nameGame:"Nombre del juego",
         question:{
             options:["","","",""],
             createdAt: "",
@@ -38,6 +39,9 @@ class PlayGame extends React.Component{
         socket.emit("start game", this.idGame, (data,err)=>{
             if(err){
                 this.setState({typeGame:"error"})
+            }
+            else{
+                this.setState({nameGame:data.title})
             }
         })
     }
@@ -122,7 +126,7 @@ class PlayGame extends React.Component{
         if(this.state.typeGame == null){
             console.log(`[playGame] typegame = null, seleccionar`)
             component = <div>
-                            <h1>Name game</h1>
+                            <a href="#" style={style.backGames}><h1>{this.state.nameGame}</h1></a>
                             <TypeGame funcTypeGame={this.selectTypeGame}/>
                         </div>
         }

@@ -15,6 +15,7 @@ class CardGame extends React.Component {
         var {sizeCard, match, game} = this.props;
         return (
                 <Link to={`/game/${game._id}`}>
+                    <div className={"col " + sizeCard}>
                         <div className="card">
                             <div className="card-image">
                                 <img src={imgBg} alt="juego"/>
@@ -24,6 +25,7 @@ class CardGame extends React.Component {
                                 <p>{(game.description != undefined) ? game.description : ""}</p>
                             </div>
                         </div>
+                    </div>
                 </Link>
                 )
             }

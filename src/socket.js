@@ -21,7 +21,7 @@ module.exports = io => {
                 }
                 else{
                     game = resGame
-                    cb(resGame._id,false)
+                    cb(resGame,false)
                 }
             })
         })
