@@ -3,11 +3,13 @@ import {Link} from 'react-router-dom'
 import TypeGame from './components/playGame/typeGame'
 import Question from './components/playGame/question'
 import ResultGame from './components/playGame/resultGame'
+import coinSound from '../public/sound/coin.wav'
 
 const socket = io(),
       style = {
           backGames : {color:"#000"}
-      }
+      },
+      coin = new Audio(coinSound);
 
 class PlayGame extends React.Component{
 
@@ -43,6 +45,11 @@ class PlayGame extends React.Component{
             else{
                 this.setState({nameGame:data.title})
             }
+        })
+
+        socket.on("recibi respuestaLector", data => {
+            console.log(`[lector] ${data}`)
+            this.choseAnswer(this.state.question._id, data)
         })
     }
 
@@ -116,7 +123,9 @@ class PlayGame extends React.Component{
             soloAnswers:res
         })
 
-        socket.emit("send answer", objSend, this.state.userId)
+        socket.emit("send answer", objSend, this.state.userId, res => {
+            coin.play()
+        })
         
         this.nextQuestion()
     }

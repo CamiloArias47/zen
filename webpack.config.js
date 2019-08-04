@@ -20,7 +20,7 @@ module.exports = {
                 use: ['babel-loader']
             },
             {
-                test: /\.(png|jpe?g|gif)$/,
+                test: /\.(png|jpe?g|gif|wav)$/,
                 use: [
                     {
                         loader: 'file-loader',

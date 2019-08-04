@@ -1,6 +1,7 @@
 const Game = require('./models/Games')
 const {modelQuestion} = require('./models/Questions')
 var GameSolo = require('./controllers/gameSolo')
+var parser = require('./lector')
 
 module.exports = io => {
 
@@ -10,8 +11,14 @@ module.exports = io => {
         gameSolo,
         game;
 
+
     io.on('connection', socket =>{
         console.log(`[socket] User connected`)
+
+        parser.on('data',(data) => {
+            socket.emit("recibi respuestaLector", data)
+            console.log(data);
+        });
 
         //verifica si el juego existe 
         socket.on("start game", (id,cb)=>{
@@ -53,11 +60,12 @@ module.exports = io => {
         })
 
         
-        socket.on("send answer", (answer, idUser) =>{
-            //console.log(`[socket] recibi respuesta:`,answer)
+        socket.on("send answer", (answer, idUser, cb) =>{
+            console.log(`[socket] recibi respuesta:`,answer)
             let ans = {question:answer.question,answer:answer.answer}
             if(typeGame == "singler"){ 
-                users[idUser]["game"].addAnswer(ans)
+                users[idUser]["game"].addAnswer(ans);
+                cb("recive answer")
             }
         })
         
