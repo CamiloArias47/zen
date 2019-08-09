@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 const style ={
     button : {
@@ -25,21 +26,29 @@ class Question extends React.Component{
     }
 
     focusSingler() {
-        this.refPreguntas.current.focus();
+        console.log(`[question view] cambiando el foco...`)
+        console.log(`[question view] this.refPreguntas.current.focus()`, this.refPreguntas.current )
+        //this.refPreguntas.current.focus();
+        ReactDOM.findDOMNode(this.refPreguntas.current).focus();
     }
 
     componentDidMount(){
         this.focusSingler();
     }
 
+    componentDidUpdate(){
+        this.focusSingler();
+    }
+
     render(){
         return(
-            <div className="row" ref={this.refPreguntas}>
-                <div className="col s12" style={{marginTop:"1rem"}}>
+            <div className="row">
+                <a href="#Pregunta" alt="nueva pregunta" ref={this.refPreguntas}></a>
+                <div className="col s12" style={{marginTop:"1rem"}} >
                     {this.showVideoIfExist()}
                 </div>
                 <div className="col s12">
-                    <a href="#" style={style.aQuestion}>
+                    <a href="#" style={style.aQuestion} >
                         <h3>{this.props.question.question}</h3>
                     </a>
                 </div>

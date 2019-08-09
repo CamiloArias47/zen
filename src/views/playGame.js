@@ -124,7 +124,18 @@ class PlayGame extends React.Component{
         })
 
         socket.emit("send answer", objSend, this.state.userId, res => {
-            coin.play()
+            try {
+                const playPromise = coin.play();
+                if (playPromise !== undefined){
+                        playPromise.then( ()=>{
+
+                        }).catch( err => {
+                            console.log(`[error] coin: ${coin}, error: ${err}`, err, coin)
+                        })
+                }
+            } catch (DOMException) {
+                console.log(`No suena, ${DOMException}`, DOMException)
+            }
         })
         
         this.nextQuestion()
