@@ -2,6 +2,7 @@ import React from 'react'
 import CardGame from './components/cardGame'
 import axios from 'axios'
 
+
 class Game extends React.Component{
 
     state = {
@@ -11,6 +12,10 @@ class Game extends React.Component{
     async componentDidMount(){
         let games = await axios.get('http://localhost:3000/api/games/')
         this.setState({games:games.data})
+
+        this.props.socket.on("recibi respuestaLector", data => {
+            console.log(`[lector pagina game] ${data}`)
+        })
     }
 
     render(){

@@ -6,14 +6,16 @@ import Welcome from "./welcomePage"
 import Game from "./game"
 import PlayGame from './playGame'
 
+const socket = io();
+
 class App extends React.Component{
 
     render(){
         return(
             <Router>
                 <Route path="/" exact component={Welcome} />
-                <Route path="/game" exact render={(props) => <Game {...props} />} />
-                <Route path="/game/:id" render={(props) => <PlayGame {...props} />} />
+                <Route path="/game" exact render={(props) => <Game {...props} socket={socket} />} />
+                <Route path="/game/:id" render={(props) => <PlayGame {...props} socket={socket}/>} />
             </Router>
         );
     }

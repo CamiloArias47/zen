@@ -4,12 +4,13 @@ import TypeGame from './components/playGame/typeGame'
 import Question from './components/playGame/question'
 import ResultGame from './components/playGame/resultGame'
 import coinSound from '../public/sound/coin.wav'
+import wrongSound from '../public/sound/wrong.wav'
 
-const socket = io(),
-      style = {
+const style = {
           backGames : {color:"#000"}
       },
-      coin = new Audio(coinSound);
+      coin = new Audio(coinSound),
+      wrongAudio = new Audio(wrongSound);
 
 class PlayGame extends React.Component{
 
@@ -38,7 +39,7 @@ class PlayGame extends React.Component{
 
     componentDidMount(){
         //verificar que el juego existe
-        socket.emit("start game", this.idGame, (data,err)=>{
+        this.props.socket.emit("start game", this.idGame, (data,err)=>{
             if(err){
                 this.setState({typeGame:"error"})
             }
@@ -47,17 +48,17 @@ class PlayGame extends React.Component{
             }
         })
 
-        socket.on("recibi respuestaLector", data => {
-            console.log(`[lector] ${data}`)
+        this.props.socket.on("recibi respuestaLector", data => {
+            //console.log(`[lector] ${data}`)
             this.choseAnswer(this.state.question._id, data)
         })
     }
 
     nextQuestion = ()=>{
-        socket.emit("next question", this.state.indexQuestion, this.state.userId, (question, err)=>{
-            console.log(`[playGame] indexQuestion`,this.state.indexQuestion)
+        this.props.socket.emit("next question", this.state.indexQuestion, this.state.userId, (question, err)=>{
+            //console.log(`[playGame] indexQuestion`,this.state.indexQuestion)
             if(err){
-                socket.emit("get results", this.state.userId, result => {
+                this.props.socket.emit("get results", this.state.userId, result => {
                     this.setState({
                         typeGame:"results",
                         results:result
@@ -100,13 +101,13 @@ class PlayGame extends React.Component{
     }
 
 
-    //funcion que permite selccionar el tipo de juego, se conecta via socket al servidor
+    //funcion que permite selccionar el tipo de juego, se conecta via this.props.socket al servidor
     selectTypeGame = (e)=>{
         e.preventDefault()
         let type = e.currentTarget.dataset.type;
         this.setState({typeGame: type})
-        socket.emit("select typeGame", type, userId => {
-            console.log(`[recibi user id] ${userId}`)
+        this.props.socket.emit("select typeGame", type, userId => {
+            //console.log(`[recibi user id] ${userId}`)
             this.setState({userId:userId})
 
             if(type == "singler"){
@@ -123,9 +124,16 @@ class PlayGame extends React.Component{
             soloAnswers:res
         })
 
-        socket.emit("send answer", objSend, this.state.userId, res => {
+        this.props.socket.emit("send answer", objSend, this.state.userId, res => {
+            let playPromise
             try {
-                const playPromise = coin.play();
+                if(res.qualify){
+                     playPromise = coin.play();
+                }
+                else{
+                     playPromise = wrongAudio.play();
+                }
+
                 if (playPromise !== undefined){
                         playPromise.then( ()=>{
 
@@ -133,6 +141,7 @@ class PlayGame extends React.Component{
                             console.log(`[error] coin: ${coin}, error: ${err}`, err, coin)
                         })
                 }
+                
             } catch (DOMException) {
                 console.log(`No suena, ${DOMException}`, DOMException)
             }
@@ -144,7 +153,7 @@ class PlayGame extends React.Component{
     render(){
         var component 
         if(this.state.typeGame == null){
-            console.log(`[playGame] typegame = null, seleccionar`)
+           //console.log(`[playGame] typegame = null, seleccionar`)
             component = <div>
                             <a href="#" style={style.backGames}><h1>{this.state.nameGame}</h1></a>
                             <TypeGame funcTypeGame={this.selectTypeGame}/>

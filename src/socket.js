@@ -60,12 +60,13 @@ module.exports = io => {
         })
 
         
-        socket.on("send answer", (answer, idUser, cb) =>{
+        socket.on("send answer", async (answer, idUser, cb) =>{
             console.log(`[socket] recibi respuesta:`,answer)
             let ans = {question:answer.question,answer:answer.answer}
             if(typeGame == "singler"){ 
-                users[idUser]["game"].addAnswer(ans);
-                cb("recive answer")
+                users[idUser]["game"].addAnswer(ans); 
+                let result = await users[idUser]["game"].qualifyAnswer(ans); 
+                cb({qualify:result})
             }
         })
         

@@ -1,15 +1,21 @@
-const Serialport = require('serialport');
-const Readline = Serialport.parsers.Readline;
+var SerialPort = require("serialport");
 
-const port = new Serialport('COM3',{
-    baudRate : 9600
+
+var parser = new SerialPort("COM18", {
+    baudRate: 9600,
+    dataBits: 8,
+    parity: 'none',
+    stopBits: 1,
+    flowControl: false
+  });
+
+parser.on('open', function () {
+    console.log('Puerto salida Abierto');
+    parser.write("a")
 });
 
-const parser = port.pipe(new Readline({delimiter: '\r\n'}));
-
-
-parser.on('open',() => {
-    console.log("conexion abierta");
+parser.on('data', function(data) {
+    console.log(data.toString());
 });
 
 
