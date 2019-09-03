@@ -1,7 +1,7 @@
 var SerialPort = require("serialport");
 
 
-var parser = new SerialPort("COM18", {
+var parser = new SerialPort("COM7", {
     baudRate: 9600,
     dataBits: 8,
     parity: 'none',
@@ -14,9 +14,6 @@ parser.on('open', function () {
     parser.write("a")
 });
 
-parser.on('data', function(data) {
-    console.log(data.toString());
-});
 
 
 

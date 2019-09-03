@@ -15,7 +15,7 @@ const style = {
 class PlayGame extends React.Component{
 
     state = {
-        typeGame:null,
+        typeGame:"singler",
         userId:"",
         soloAnswers:[],
         indexQuestion: 0,
@@ -47,6 +47,10 @@ class PlayGame extends React.Component{
                 this.setState({nameGame:data.title})
             }
         })
+
+        if(this.state.typeGame == "singler"){
+            this.requestTypeGame("singler")
+        }
 
         this.props.socket.on("recibi respuestaLector", data => {
             //console.log(`[lector] ${data}`)
@@ -106,6 +110,10 @@ class PlayGame extends React.Component{
         e.preventDefault()
         let type = e.currentTarget.dataset.type;
         this.setState({typeGame: type})
+        this.requestTypeGame(type)
+    }
+
+    requestTypeGame(type){
         this.props.socket.emit("select typeGame", type, userId => {
             //console.log(`[recibi user id] ${userId}`)
             this.setState({userId:userId})

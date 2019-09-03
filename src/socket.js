@@ -16,8 +16,8 @@ module.exports = io => {
         console.log(`[socket] User connected`)
 
         parser.on('data',(data) => {
-            socket.emit("recibi respuestaLector", data)
-            console.log(data);
+            socket.emit("recibi respuestaLector", data.toString())
+            console.log("[bluetooth envio] "+data.toString());
         });
 
         //verifica si el juego existe 
