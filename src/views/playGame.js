@@ -125,37 +125,40 @@ class PlayGame extends React.Component{
     }
 
     choseAnswer = (numQuestion, answer) => {
-        let res = this.state.soloAnswers,
-            objSend = {question:numQuestion,answer};
-        res.push(objSend)
-        this.setState({
-            soloAnswers:res
-        })
+        console.log("[estado juego] "+this.state.typeGame)
+        if(this.state.typeGame != "results"){
+            let res = this.state.soloAnswers,
+                objSend = {question:numQuestion,answer};
+            res.push(objSend)
+            this.setState({
+                soloAnswers:res
+            })
 
-        this.props.socket.emit("send answer", objSend, this.state.userId, res => {
-            let playPromise
-            try {
-                if(res.qualify){
-                     playPromise = coin.play();
-                }
-                else{
-                     playPromise = wrongAudio.play();
-                }
+            this.props.socket.emit("send answer", objSend, this.state.userId, res => {
+                let playPromise
+                try {
+                    if(res.qualify){
+                        playPromise = coin.play();
+                    }
+                    else{
+                        playPromise = wrongAudio.play();
+                    }
 
-                if (playPromise !== undefined){
-                        playPromise.then( ()=>{
+                    if (playPromise !== undefined){
+                            playPromise.then( ()=>{
 
-                        }).catch( err => {
-                            console.log(`[error] coin: ${coin}, error: ${err}`, err, coin)
-                        })
+                            }).catch( err => {
+                                console.log(`[error] coin: ${coin}, error: ${err}`, err, coin)
+                            })
+                    }
+                    
+                } catch (DOMException) {
+                    console.log(`No suena, ${DOMException}`, DOMException)
                 }
-                
-            } catch (DOMException) {
-                console.log(`No suena, ${DOMException}`, DOMException)
-            }
-        })
-        
-        this.nextQuestion()
+            })
+            
+            this.nextQuestion()
+        }
     }
 
     render(){

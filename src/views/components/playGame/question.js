@@ -42,8 +42,8 @@ class Question extends React.Component{
 
     render(){
         return(
-            <div className="row">
-                <a href="#Pregunta" alt="nueva pregunta" ref={this.refPreguntas}></a>
+            <div className="row" ref={this.refPreguntas}>
+                
                 <div className="col s12" style={{marginTop:"1rem"}} >
                     {this.showVideoIfExist()}
                 </div>
